@@ -30,14 +30,14 @@ async def registration_name(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(state=Registration.name)
-async def registration_name(message: types.Message):
+async def registration_name_error(message: types.Message):
     message_ = "Iltimos, ismingizni to'g'ri kiriting!"
     await message.answer(text=message_)
     await Registration.name.set()
 
 
 @dp.message_handler(content_types=types.ContentType.CONTACT, state=Registration.phone_n)
-async def registration_name(message: types.Message, state: FSMContext):
+async def registration_phone_contact(message: types.Message, state: FSMContext):
     phone_n = None
     if message.contact.phone_number.startswith('+'):
         phone_n = message.contact.phone_number[1:]
@@ -50,7 +50,7 @@ async def registration_name(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(lambda message: message.text.isdigit() and len(message.text) == 9, state=Registration.phone_n)
-async def register_complete_handler(message: types.Message, state: FSMContext):
+async def registration_phone_text(message: types.Message, state: FSMContext):
     phone_n = "998" + message.text
     await state.update_data({'phone_n': phone_n})
     message_ = f"Ro'yxatdan o'tish muvaffaqiyatli yakunlandi!"
@@ -61,7 +61,7 @@ async def register_complete_handler(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(state=Registration.phone_n)
-async def registration_name(message: types.Message):
+async def registration_phone_error(message: types.Message):
     message_ = "Iltimos!"
     message_ += "\n<strong>Raqamni yuborish</strong> tugmasini bosing"
     message_ += "\nYoki 901234567 ko'rinishida kiriting"
