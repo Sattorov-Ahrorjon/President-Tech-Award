@@ -15,15 +15,31 @@ class RegistrationRu(StatesGroup):
     phone_n = State()
 
 
-class UrgentHelpKr(StatesGroup):
+class EmergencyKr(StatesGroup):
     situation = State()
     name = State()
+    age = State()
     phone_n = State()
     location = State()
 
 
-class UrgentHelpRu(StatesGroup):
+class EmergencyRu(StatesGroup):
     situation = State()
     name = State()
+    age = State()
     phone_n = State()
     location = State()
+
+
+class ConditionKr(StatesGroup):
+    button = State()
+    message = State()
+    analysis = State()
+    register = State()
+
+
+class ConditionRu(StatesGroup):
+    button = State()
+    message = State()
+    analysis = State()
+    register = State()

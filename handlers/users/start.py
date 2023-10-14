@@ -14,6 +14,14 @@ headers = {
 }
 
 
+@dp.message_handler(commands=['state_stop'], state='*')
+async def stop_state(message: types.Message, state: FSMContext):
+    await message.answer(
+        text="State stop!"
+    )
+    await state.finish()
+
+
 # @dp.message_handler(CommandStart() test )
 @dp.message_handler(CommandStart())
 async def bot_start(message: types.Message):
@@ -65,6 +73,16 @@ async def get_answer(call: types.CallbackQuery):
     )
     await Lang.lang.set()
 
+
+@dp.message_handler(state=Lang.lang)
+async def get_answer(message: types.Message):
+    await message.answer(
+        text="Илтимос!"
+             "\nТилни танланг!"
+             "\nВыберите язык!",
+        reply_markup=select_lang
+    )
+    await Lang.lang.set()
 
 # @dp.message_handler(lambda message: message, state=Registration.lang)
 # async def bot_start(message: types.Message):

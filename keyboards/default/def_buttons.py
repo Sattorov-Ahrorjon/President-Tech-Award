@@ -1,5 +1,6 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 from data.config import X_API_KEY, DOMAIN
+import requests
 
 headers = {
     'X-API-KEY': X_API_KEY
@@ -9,22 +10,16 @@ headers = {
 # Bemorning holatini aniqlash uchun dynamic buttons list muammoni eshitish
 async def condition_assessment_funk():
     condition_assessment_buttons = ReplyKeyboardMarkup(resize_keyboard=True)
-    data_list = {}
-    # data_list = requests.get(
-    #     url=f'',
-    #     headers=headers
-    # ).json()
+    # data_list = {} name_disease
+    data_list = requests.get(
+        url=f'{DOMAIN}/disease',
+        # headers=headers
+    ).json()
 
-    conditions = [v['key'] for v in data_list]
-    buttons = [[KeyboardButton(text=condition)] for condition in conditions]
+    disease_list = [v['name_disease'] for v in data_list]
+    buttons = [[KeyboardButton(text=condition)] for condition in disease_list]
     for obj in buttons:
         condition_assessment_buttons.keyboard.append(obj)
-
-    condition_assessment_buttons.keyboard.append(
-        [
-            KeyboardButton(text='Boshqa holat')
-        ],
-    )
 
     return condition_assessment_buttons
 
@@ -32,21 +27,15 @@ async def condition_assessment_funk():
 async def emergency_help_funk():
     urgent_help_buttons = ReplyKeyboardMarkup(resize_keyboard=True)
     data_list = {}
-    # data_list = requests.get(
-    #     url=f'',
-    #     headers=headers
-    # ).json()
+    data_list = requests.get(
+        url=f"{DOMAIN}/ttb",
+        # headers=headers
+    ).json()
 
-    emergency_help_list = [v['key'] for v in data_list]
+    emergency_help_list = [v['category'] for v in data_list]
     buttons = [[KeyboardButton(text=emergency_help)] for emergency_help in emergency_help_list]
     for obj in buttons:
         urgent_help_buttons.keyboard.append(obj)
-
-    urgent_help_buttons.keyboard.append(
-        [
-            KeyboardButton(text='Boshqa holat...')
-        ],
-    )
 
     return urgent_help_buttons
 
@@ -91,10 +80,8 @@ user_status_kr = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(text="Шикоят билдириш!"),
-        ],
-        [
             KeyboardButton(text="Тез ёрдам чақириш!")
-        ]
+        ],
     ],
     resize_keyboard=True
 )
@@ -103,9 +90,21 @@ user_status_ru = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(text="Подавать жалобу!"),
+            KeyboardButton(text="Вызовите скорую!")
+        ],
+    ],
+    resize_keyboard=True
+)
+
+user_age = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text="0 - 6"),
+            KeyboardButton(text="6 - 14")
         ],
         [
-            KeyboardButton(text="Вызовите скорую!")
+            KeyboardButton(text="14 - 18"),
+            KeyboardButton(text="18 - *")
         ]
     ],
     resize_keyboard=True
