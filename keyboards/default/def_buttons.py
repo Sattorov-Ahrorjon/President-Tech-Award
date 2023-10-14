@@ -1,8 +1,14 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
+from data.config import X_API_KEY, DOMAIN
+
+headers = {
+    'X-API-KEY': X_API_KEY
+}
 
 
-async def patient_conditions():
-    patient_conditions_buttons = ReplyKeyboardMarkup(resize_keyboard=True)
+# Bemorning holatini aniqlash uchun dynamic buttons list muammoni eshitish
+async def condition_assessment_funk():
+    condition_assessment_buttons = ReplyKeyboardMarkup(resize_keyboard=True)
     data_list = {}
     # data_list = requests.get(
     #     url=f'',
@@ -12,35 +18,18 @@ async def patient_conditions():
     conditions = [v['key'] for v in data_list]
     buttons = [[KeyboardButton(text=condition)] for condition in conditions]
     for obj in buttons:
-        patient_conditions_buttons.keyboard.append(obj)
+        condition_assessment_buttons.keyboard.append(obj)
 
-    patient_conditions_buttons.keyboard.append(
+    condition_assessment_buttons.keyboard.append(
         [
-            KeyboardButton(text='Boshqa holat...')
+            KeyboardButton(text='Boshqa holat')
         ],
     )
 
-    return patient_conditions_buttons
+    return condition_assessment_buttons
 
 
-#
-# patient_conditions = ReplyKeyboardMarkup(
-#     keyboard=[
-#         [
-#             KeyboardButton(text="Yurak xuruji"),
-#         ],
-#         [
-#             KeyboardButton(text="Jarohat olish holati")
-#         ],
-#         [
-#             KeyboardButton(text="Sinish holati")
-#         ]
-#     ],
-#     resize_keyboard=True
-# )
-
-
-async def urgent_help():
+async def emergency_help_funk():
     urgent_help_buttons = ReplyKeyboardMarkup(resize_keyboard=True)
     data_list = {}
     # data_list = requests.get(
@@ -62,32 +51,62 @@ async def urgent_help():
     return urgent_help_buttons
 
 
-phone_number = ReplyKeyboardMarkup(
+phone_number_kr = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="Raqamni yuborish!", request_contact=True),
+            KeyboardButton(text="Рақамни юбориш!", request_contact=True),
         ]
     ],
     resize_keyboard=True
 )
 
-location = ReplyKeyboardMarkup(
+phone_number_ru = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="Joylashuvni yuborish!", request_location=True),
+            KeyboardButton(text="Отправить номер!", request_contact=True),
         ]
     ],
     resize_keyboard=True
 )
 
-emergency_button = ReplyKeyboardMarkup(
+location_kr = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="Bemorni holatini bilish!"),
+            KeyboardButton(text="Жойлашувни юбориш!", request_location=True),
+        ]
+    ],
+    resize_keyboard=True
+)
+
+location_ru = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text="Отправить местоположение!", request_location=True),
+        ]
+    ],
+    resize_keyboard=True
+)
+
+user_status_kr = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text="Шикоят билдириш!"),
         ],
         [
-            KeyboardButton(text="Tez yordam!"),
+            KeyboardButton(text="Тез ёрдам чақириш!")
+        ]
+    ],
+    resize_keyboard=True
+)
+
+user_status_ru = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text="Подавать жалобу!"),
         ],
+        [
+            KeyboardButton(text="Вызовите скорую!")
+        ]
     ],
     resize_keyboard=True
 )
