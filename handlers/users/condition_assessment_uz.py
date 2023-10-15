@@ -54,9 +54,9 @@ async def complaint_text(message: types.Message, state: FSMContext):
         data['text'] = message.text
 
     await message.answer(
-        text="1) - savol."
-             "\n2) - savol."
-             "\nSavollarga javob bering!"
+        text="Iltimos, quyidagi savollarga bitta xabarda javob bering:\n1) Yoshingiz"
+             "\n2) Surunkali kasallik bilan chalinganmisiz ?"
+             "\n3) Nimalarga allergiyangiz bor ?"
     )
 
     await ConditionUz.analysis.set()
@@ -68,8 +68,7 @@ async def get_analysis(message: types.Message, state: FSMContext):
         data['analysis'] = message.text
 
     await message.answer(
-        text="Тез тиббий ёрдам чақириш учун асосий малумотлар керак!"
-             "\nБеморнинг исм фамилиясини юборинг"
+        text="Беморнинг исм фамилиясини юборинг"
     )
     await ConditionUz.condition_name.set()
 

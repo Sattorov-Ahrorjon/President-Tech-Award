@@ -158,7 +158,7 @@ async def patient_location_kr(message: types.Message, state: FSMContext):
 
     await message.answer(
         text=f"Малумотлар қабул қилинди!\n{data['situation']} бўйича биринчи ёрдам кўрсатиш йўриқномаси: http://168.119.110.233:5003/{response.get('image')}",
-        reply_markup=ReplyKeyboardRemove()
+        reply_markup=def_buttons.user_status_uz
     )
 
     await state.finish()
