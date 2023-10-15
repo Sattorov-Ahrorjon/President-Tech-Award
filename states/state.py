@@ -5,19 +5,19 @@ class Lang(StatesGroup):
     lang = State()
 
 
-class RegistrationKr(StatesGroup):
-    name = State()
-    phone_n = State()
+# class RegistrationKr(StatesGroup):
+#     name = State()
+#     phone_n = State()
+#
+#
+# class RegistrationRu(StatesGroup):
+#     name = State()
+#     phone_n = State()
 
 
-class RegistrationRu(StatesGroup):
-    name = State()
-    phone_n = State()
-
-
-class EmergencyKr(StatesGroup):
+class EmergencyUz(StatesGroup):
     situation = State()
-    name = State()
+    emergency_name = State()
     age = State()
     phone_n = State()
     location = State()
@@ -25,21 +25,23 @@ class EmergencyKr(StatesGroup):
 
 class EmergencyRu(StatesGroup):
     situation = State()
-    name = State()
+    emergency_name = State()
     age = State()
     phone_n = State()
     location = State()
 
 
-class ConditionKr(StatesGroup):
-    button = State()
+class ConditionUz(StatesGroup):
+    type = State()
     message = State()
     analysis = State()
-    register = State()
+    condition_name = State()
+    phone = State()
 
 
 class ConditionRu(StatesGroup):
-    button = State()
+    type = State()
     message = State()
     analysis = State()
-    register = State()
+    name = State()
+    phone = State()

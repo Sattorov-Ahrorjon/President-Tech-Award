@@ -9,7 +9,7 @@ headers = {
 select_lang = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="ўзбек тили", callback_data='kr'),
+            InlineKeyboardButton(text="ўзбек тили", callback_data='uz'),
             InlineKeyboardButton(text="русский язык", callback_data='ru'),
         ],
     ],

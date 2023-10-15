@@ -58,7 +58,7 @@ phone_number_ru = ReplyKeyboardMarkup(
     resize_keyboard=True
 )
 
-location_kr = ReplyKeyboardMarkup(
+location_uz = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(text="Жойлашувни юбориш!", request_location=True),
@@ -76,12 +76,15 @@ location_ru = ReplyKeyboardMarkup(
     resize_keyboard=True
 )
 
-user_status_kr = ReplyKeyboardMarkup(
+user_status_uz = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(text="Шикоят билдириш!"),
             KeyboardButton(text="Тез ёрдам чақириш!")
         ],
+        [
+            KeyboardButton("Шикоятларим!")
+        ]
     ],
     resize_keyboard=True
 )

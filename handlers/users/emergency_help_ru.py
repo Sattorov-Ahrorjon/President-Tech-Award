@@ -40,7 +40,7 @@ async def know_the_situation(message: types.Message, state: FSMContext):
              "\nУкажите имя и фамилию пациента",
         reply_markup=ReplyKeyboardRemove()
     )
-    await EmergencyRu.name.set()
+    await EmergencyRu.emergency_name.set()
 
 
 # lambda message: message.text not in situation_list_func_ru(),
@@ -54,7 +54,7 @@ async def know_the_situation(message: types.Message):
     await EmergencyRu.situation.set()
 
 
-@dp.message_handler(state=EmergencyRu.name)
+@dp.message_handler(state=EmergencyRu.emergency_name)
 async def patient_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name'] = message.text.capitalize()

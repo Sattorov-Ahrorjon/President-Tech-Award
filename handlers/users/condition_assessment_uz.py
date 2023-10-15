@@ -4,10 +4,10 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from data.config import DOMAIN, BOT_TOKEN, headers
 from keyboards.default import def_buttons
-from states.state import ConditionRu
+from states.state import ConditionUz
 
 
-def situation_list_func_ru():
+def situation_list_func_kr():
     data_list = requests.get(
         url=f"{DOMAIN}/disease",
         # headers=headers
@@ -16,39 +16,39 @@ def situation_list_func_ru():
     return [v['name_disease'] for v in data_list]
 
 
-@dp.message_handler(lambda message: message.text == "Подавать жалобу!")
+@dp.message_handler(lambda message: message.text == "Шикоят билдириш!")
 async def download_image(message: types.Message):
     await message.answer(
-        text="Выберите ситуацию, которую вы чувствуете в себе!",
+        text="Ўзингизда сезилаётган касаллик ҳолатини танланг!",
         reply_markup=await def_buttons.condition_assessment_funk()
     )
-    await ConditionRu.type.set()
+    await ConditionUz.type.set()
 
 
-@dp.message_handler(lambda message: message.text in situation_list_func_ru(), state=ConditionRu.type)
+@dp.message_handler(lambda message: message.text in situation_list_func_kr(), state=ConditionUz.type)
 async def receiving_a_complaint(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['type'] = message.text
 
     await message.answer(
-        text="Предоставьте информацию о ситуации!"
-             "\nВ текстовом виде!",
+        text="Ҳолат ҳақида малумот беринг!"
+             "\nМатн кўринишида!",
         reply_markup=types.ReplyKeyboardRemove()
     )
-    await ConditionRu.message.set()
+    await ConditionUz.message.set()
 
 
-@dp.message_handler(state=ConditionRu.type)
+@dp.message_handler(state=ConditionUz.type)
 async def receiving_a_complaint(message: types.Message):
     await message.answer(
-        text="Пожалуйста!"
-             "\nВыберите ситуацию, которую вы чувствуете в себе!",
+        text="Илтимос!"
+             "\nЎзингизда сезилаётган касаллик ҳолатини танланг!",
         reply_markup=await def_buttons.condition_assessment_funk()
     )
-    await ConditionRu.type.set()
+    await ConditionUz.type.set()
 
 
-@dp.message_handler(content_types=types.ContentType.TEXT, state=ConditionRu.message)
+@dp.message_handler(content_types=types.ContentType.TEXT, state=ConditionUz.message)
 async def complaint_text(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['text'] = message.text
@@ -59,22 +59,21 @@ async def complaint_text(message: types.Message, state: FSMContext):
              "\nSavollarga javob bering!"
     )
 
-    await ConditionRu.analysis.set()
+    await ConditionUz.analysis.set()
 
 
-@dp.message_handler(state=ConditionRu.analysis)
+@dp.message_handler(state=ConditionUz.analysis)
 async def get_analysis(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['analysis'] = message.text
 
     await message.answer(
-        text="Для вызова скорой помощи необходима базовая информация!!"
-             "\nУкажите имя и фамилию пациента",
+        text="Тез тиббий ёрдам чақириш учун асосий малумотлар керак!"
+             "\nБеморнинг исм фамилиясини юборинг"
     )
+    await ConditionUz.condition_name.set()
 
-    await ConditionRu.name.set()
-
-# @dp.message_handler(content_types=types.ContentType.VOICE, state=ConditionRu.message)
+# @dp.message_handler(content_types=types.ContentType.VOICE, state=ConditionKr.message)
 # async def complaint_voice(message: types.Message, state: FSMContext):
 #     voice_message = message.voice
 #     file_id = voice_message.file_id
@@ -84,11 +83,12 @@ async def get_analysis(message: types.Message, state: FSMContext):
 #     download_link = f'https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}'
 #     await message.answer(
 #         text=f"Javob qabul qilindi!"
-#              f"\nRo'yxatdan o'tishingiz kerak"
 #              f"\n{download_link}"
+#              f"\nRo'yxatdan o'tish uchun \nIsm Familiyangizni kiriting"
+#              "\nM-n: Sattorov Ahror"
 #     )
 #
 #     async with state.proxy() as data:
 #         data['voice'] = download_link
 #
-#     await ConditionRu.name.set()
+#     await ConditionKr.name.set()
