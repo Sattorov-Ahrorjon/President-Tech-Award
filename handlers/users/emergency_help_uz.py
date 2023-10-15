@@ -157,7 +157,7 @@ async def patient_location_kr(message: types.Message, state: FSMContext):
     ).json()
 
     await message.answer(
-        text=f"Малумотлар қабул қилинди!\n{data['situation']} бўйича биринчи ёрдам кўрсатиш йўриқномаси: {DOMAIN}/{response.get('image')}",
+        text=f"Малумотлар қабул қилинди!\n{data['situation']} бўйича биринчи ёрдам кўрсатиш йўриқномаси: http://168.119.110.233:5003/{response.get('image')}",
         reply_markup=ReplyKeyboardRemove()
     )
 
