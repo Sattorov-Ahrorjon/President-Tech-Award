@@ -1,12 +1,11 @@
 import requests
-from aiogram.types import ReplyKeyboardRemove
-
 from loader import dp
 from aiogram import types
-from aiogram.dispatcher import FSMContext
-from states.state import ConditionRu
-from keyboards.default import def_buttons
 from data.config import DOMAIN
+from states.state import ConditionRu
+from aiogram.dispatcher import FSMContext
+from keyboards.default import def_buttons
+
 
 @dp.message_handler(state=ConditionRu.name)
 async def bot_start(message: types.Message, state: FSMContext):
@@ -33,53 +32,7 @@ async def registration_contact(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['phone'] = phone_
 
-    # data_dic = {
-    #     'name': data['name'],
-    #     'phone': data['phone'],
-    #     'type': data['type'],
-    #     'text': data['text'],
-    #     'analysis': data['analysis'],
-    # }
-
-    requests.put(
-        url=f"{DOMAIN}/user/{message.from_user.id}/",
-        json={
-            'name': data['name'],
-            'username': message.from_user.username,
-            'phone_number': data['phone']
-        }
-    )
-
-    requests.post(
-        url=f"{DOMAIN}/complain/",
-        json={
-            'user': message.from_user.id,
-            'category': data['type']
-        }
-    )
-
-    await message.answer(
-        text=f"Tugadi!\n",
-        reply_markup=ReplyKeyboardRemove()
-    )
-
-    await state.finish()
-
-
-@dp.message_handler(lambda message: message.text.isdigit() and len(message.text) == 9, state=ConditionRu.phone)
-async def registration_contact_text(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['phone'] = "998" + message.text
-
-    # data_dic = {
-    #     'name': data['name'],
-    #     'phone': data['phone'],
-    #     'type': data['type'],
-    #     'text': data['text'],
-    #     'analysis': data['analysis'],
-    # }
-
-    if not requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['result']:
+    if not requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['user']['phone_number']:
         requests.put(
             url=f"{DOMAIN}/user/{message.from_user.id}/",
             json={
@@ -98,10 +51,42 @@ async def registration_contact_text(message: types.Message, state: FSMContext):
     )
 
     await message.answer(
-        text=f"Tugadi!\n",
-        reply_markup=ReplyKeyboardRemove()
+        text=f"Ваша жалоба принята и передана специалисту. "
+             f"Ответ эксперта вы можете увидеть в разделе «Мои жалобы».",
+        reply_markup=def_buttons.user_status_ru
     )
+
     await state.finish()
+
+
+@dp.message_handler(lambda message: message.text.isdigit() and len(message.text) == 9, state=ConditionRu.phone)
+async def registration_contact_text(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['phone'] = "998" + message.text
+
+    if not requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['user']['phone_number']:
+        requests.put(
+            url=f"{DOMAIN}/user/{message.from_user.id}/",
+            json={
+                'name': data['name'],
+                'username': message.from_user.username,
+                'phone_number': data['phone']
+            }
+        )
+
+    requests.post(
+        url=f"{DOMAIN}/complain/",
+        json={
+            'user': message.from_user.id,
+            'category': data['type']
+        }
+    )
+
+    await message.answer(
+        text=f"Ваша жалоба принята и передана специалисту. "
+             f"Ответ эксперта вы можете увидеть в разделе «Мои жалобы».",
+        reply_markup=def_buttons.user_status_ru
+    )
 
 
 @dp.message_handler(state=ConditionRu.phone)

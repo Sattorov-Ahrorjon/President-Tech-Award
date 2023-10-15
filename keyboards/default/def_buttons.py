@@ -137,6 +137,9 @@ user_status_ru = ReplyKeyboardMarkup(
             KeyboardButton(text="Вызовите скорую!")
         ],
         [
+            KeyboardButton("Мои жалобы!")
+        ],
+        [
             KeyboardButton(text='🏠 Домашняя страница')
         ],
     ],

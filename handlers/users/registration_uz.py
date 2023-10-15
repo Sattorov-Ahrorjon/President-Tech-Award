@@ -33,15 +33,7 @@ async def registration_contact(message: types.Message, state: FSMContext):
 
     async with state.proxy() as data:
         data['phone'] = phone_
-
-    # data_dic = {
-    #     'name': data['name'],
-    #     'phone': data['phone'],
-    #     'type': data['type'],
-    #     'text': data['text'],
-    #     'analysis': data['analysis'],
-    # }
-    if not requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['result']:
+    if not requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['user']['phone_number']:
         requests.put(
             url=f"{DOMAIN}/user/{message.from_user.id}/",
             json={
@@ -55,13 +47,16 @@ async def registration_contact(message: types.Message, state: FSMContext):
         url=f"{DOMAIN}/complain/",
         json={
             'user': message.from_user.id,
-            'category': data['type']
+            'category': data['type'],
+            'text': data.get("text"),
+            'analizlar': data.get("analysis")
         }
     )
 
     await message.answer(
-        text=f"Tugadi!\n",
-        reply_markup=ReplyKeyboardRemove()
+        text=f"Сизнинг шикоятингиз қабул қилинди ва мутаҳассисга йўналтирилди. "
+             f"Мутаҳассисни жавобини шикоятларим бўлимидан кўришингиз мумкин.!\n",
+        reply_markup=def_buttons.user_status_uz
     )
 
     await state.finish()
@@ -72,15 +67,7 @@ async def registration_contact_text(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['phone'] = "998" + message.text
 
-    # data_dic = {
-    #     'name': data['name'],
-    #     'phone': data['phone'],
-    #     'type': data['type'],
-    #     'text': data['text'],
-    #     'analysis': data['analysis'],
-    # }
-
-    if not requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['result']:
+    if not requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['user']['phone_number']:
         requests.put(
             url=f"{DOMAIN}/user/{message.from_user.id}/",
             json={
@@ -94,13 +81,16 @@ async def registration_contact_text(message: types.Message, state: FSMContext):
         url=f"{DOMAIN}/complain/",
         json={
             'user': message.from_user.id,
-            'category': data['type']
+            'category': data['type'],
+            'text': data.get("text"),
+            'analizlar': data.get("analysis")
         }
     )
 
     await message.answer(
-        text=f"Tugadi!\n",
-        reply_markup=ReplyKeyboardRemove()
+        text=f"Сизнинг шикоятингиз қабул қилинди ва мутаҳассисга йўналтирилди. "
+             f"Мутаҳассисни жавобини шикоятларим бўлимидан кўришингиз мумкин.!\n",
+        reply_markup=def_buttons.user_status_uz
     )
 
     await state.finish()

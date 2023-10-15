@@ -44,16 +44,19 @@ async def stop_state(message: types.Message, state: FSMContext):
 @dp.message_handler(CommandStart())
 async def bot_start(message: types.Message):
 
-    if requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['result']:
+    res = requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()
+    print("nat - ", res)
 
-        if requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['user']['language'] == 'uz':
+    if res['result']:
+
+        if res['user']['language'] == 'uz':
             await message.answer(
                 text=f"Aссалому алайкум, {message.from_user.full_name}!"
                      f"\nСизга қандай ёрдам бера оламиз!",
                 reply_markup=def_buttons.user_status_uz
             )
             return
-        elif requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['user']['language'] == 'ru':
+        elif res['user']['language'] == 'ru':
             await message.answer(
                 text="\nЗдравствуйте, {message.from_user.full_name}!"
                      "Как мы можем вам помочь!",

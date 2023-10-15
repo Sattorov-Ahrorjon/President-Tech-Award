@@ -152,10 +152,15 @@ async def patient_location_kr(message: types.Message, state: FSMContext):
         }
     )
 
+    response = requests.get(
+        url=f"{DOMAIN}/ttb/{data['situation']}"
+    ).json()
+
     await message.answer(
-        text="Малумотлар қабул қилинди!",
+        text=f"Малумотлар қабул қилинди!\n{data['situation']} бўйича биринчи ёрдам кўрсатиш йўриқномаси: {DOMAIN}/{response.get('image')}",
         reply_markup=ReplyKeyboardRemove()
     )
+
     await state.finish()
 
 
