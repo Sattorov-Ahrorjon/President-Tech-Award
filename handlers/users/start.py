@@ -1,13 +1,12 @@
 import requests
+from loader import dp
 from aiogram import types
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.builtin import CommandStart
-
 from states.state import Lang
 from keyboards.default import def_buttons
-from keyboards.inline.inl_buttons import select_lang
-from loader import dp
+from aiogram.dispatcher import FSMContext
 from data.config import X_API_KEY, DOMAIN
+from keyboards.inline.inl_buttons import select_lang
+from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.utils.exceptions import MessageToDeleteNotFound
 
 headers = {
@@ -23,27 +22,49 @@ async def stop_state(message: types.Message, state: FSMContext):
     await state.finish()
 
 
+@dp.message_handler(lambda message: message.text == "🏠 Бош саҳифа", state='*')
+async def stop_state(message: types.Message, state: FSMContext):
+    await message.answer(
+        text="Сизга қандай ёрдам бера оламиз!",
+        reply_markup=def_buttons.user_status_uz
+    )
+    await state.finish()
+
+
+@dp.message_handler(lambda message: message.text == "🏠 Домашняя страница", state='*')
+async def stop_state(message: types.Message, state: FSMContext):
+    await message.answer(
+        text="Как мы можем вам помочь!",
+        reply_markup=def_buttons.user_status_ru
+    )
+    await state.finish()
+
+
 # @dp.message_handler(CommandStart() test )
 @dp.message_handler(CommandStart())
 async def bot_start(message: types.Message):
-    await message.answer(
-        text=f"Aссалому алайкум, {message.from_user.full_name}!"
-             f"\nЗдравствуйте, {message.from_user.full_name}!"
-    )
 
     if requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['result']:
 
         if requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['user']['language'] == 'uz':
             await message.answer(
-                text="Сизга қандай ёрдам бера оламиз!",
+                text=f"Aссалому алайкум, {message.from_user.full_name}!"
+                     f"\nСизга қандай ёрдам бера оламиз!",
                 reply_markup=def_buttons.user_status_uz
             )
             return
         elif requests.get(url=f"{DOMAIN}/user/{message.from_user.id}").json()['user']['language'] == 'ru':
             await message.answer(
-                text="Как мы можем вам помочь!",
+                text="\nЗдравствуйте, {message.from_user.full_name}!"
+                     "Как мы можем вам помочь!",
                 reply_markup=def_buttons.user_status_ru
             )
+            return
+
+    await message.answer(
+        text=f"Aссалому алайкум, {message.from_user.full_name}!"
+             f"\nЗдравствуйте, {message.from_user.full_name}!"
+    )
 
     await message.answer(
         text="Тилни танланг!"

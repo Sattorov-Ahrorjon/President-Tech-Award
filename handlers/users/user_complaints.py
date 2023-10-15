@@ -5,4 +5,6 @@ from loader import dp
 
 @dp.message_handler(lambda message: message.text == "Шикоятларим!")
 async def user_complaints(message: types.Message):
-    pass
+    await message.answer(
+        text="Shikoyatlarim!"
+    )

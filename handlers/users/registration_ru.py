@@ -15,7 +15,7 @@ async def bot_start(message: types.Message, state: FSMContext):
     message_ += "\nИли введите его как 901234567"
     await message.answer(
         text=message_,
-        reply_markup=def_buttons.phone_number_kr
+        reply_markup=def_buttons.phone_number_uz
     )
 
     async with state.proxy() as data:
@@ -112,5 +112,5 @@ async def registration_contact_error(message: types.Message):
     message_ += "\nИли введите его как 901234567"
     await message.answer(
         text=message_,
-        reply_markup=def_buttons.phone_number_kr)
+        reply_markup=def_buttons.phone_number_uz)
     await ConditionRu.phone.set()

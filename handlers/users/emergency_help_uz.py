@@ -26,7 +26,7 @@ def situation_list_func_kr():
 async def know_the_situation(message: types.Message):
     await message.answer(
         text="Бемор ҳолати ҳақида малумот беринг!",
-        reply_markup=await def_buttons.emergency_help_funk()
+        reply_markup=await def_buttons.emergency_help_funk(lang='uz')
     )
     await EmergencyUz.situation.set()
 
@@ -35,6 +35,7 @@ async def know_the_situation(message: types.Message):
 async def know_the_situation(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['situation'] = message.text
+
     await message.answer(
         text="Тез тиббий ёрдам чақириш учун асосий малумотлар керак!"
              "\nБеморнинг исм фамилиясини юборинг",
@@ -51,7 +52,7 @@ async def know_the_situation(message: types.Message, state: FSMContext):
     await message.answer(
         text="Илтимос!"
              "\nБемор ҳолати ҳақида малумот беринг!",
-        reply_markup=await def_buttons.emergency_help_funk()
+        reply_markup=await def_buttons.emergency_help_funk(lang='uz')
     )
     await EmergencyUz.situation.set()
 
@@ -79,7 +80,7 @@ async def get_user_age(message: types.Message, state: FSMContext):
 
     await message.answer(
         text=message_,
-        reply_markup=def_buttons.phone_number_kr
+        reply_markup=def_buttons.phone_number_uz
     )
     await EmergencyUz.phone_n.set()
 
@@ -129,7 +130,7 @@ async def patient_phone_error(message: types.Message):
     message_ = "Илтимос! Тезкор алоқага чиқиш учун"
     message_ += "\n<strong>Рақамни юбориш</strong> тугмасини босинг"
     message_ += "\nЁки 901234567 кўринишида киритинг"
-    await message.answer(text=message_, reply_markup=def_buttons.phone_number_kr)
+    await message.answer(text=message_, reply_markup=def_buttons.phone_number_uz)
     await EmergencyUz.phone_n.set()
 
 

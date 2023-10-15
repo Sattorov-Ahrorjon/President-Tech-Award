@@ -20,7 +20,7 @@ def situation_list_func_ru():
 async def download_image(message: types.Message):
     await message.answer(
         text="Выберите ситуацию, которую вы чувствуете в себе!",
-        reply_markup=await def_buttons.condition_assessment_funk()
+        reply_markup=await def_buttons.condition_assessment_funk(lang='ru')
     )
     await ConditionRu.type.set()
 
@@ -43,7 +43,7 @@ async def receiving_a_complaint(message: types.Message):
     await message.answer(
         text="Пожалуйста!"
              "\nВыберите ситуацию, которую вы чувствуете в себе!",
-        reply_markup=await def_buttons.condition_assessment_funk()
+        reply_markup=await def_buttons.condition_assessment_funk(lang='ru')
     )
     await ConditionRu.type.set()
 

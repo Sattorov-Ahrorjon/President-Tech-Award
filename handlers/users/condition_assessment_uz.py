@@ -20,7 +20,7 @@ def situation_list_func_kr():
 async def download_image(message: types.Message):
     await message.answer(
         text="Ўзингизда сезилаётган касаллик ҳолатини танланг!",
-        reply_markup=await def_buttons.condition_assessment_funk()
+        reply_markup=await def_buttons.condition_assessment_funk(lang='uz')
     )
     await ConditionUz.type.set()
 
@@ -43,7 +43,7 @@ async def receiving_a_complaint(message: types.Message):
     await message.answer(
         text="Илтимос!"
              "\nЎзингизда сезилаётган касаллик ҳолатини танланг!",
-        reply_markup=await def_buttons.condition_assessment_funk()
+        reply_markup=await def_buttons.condition_assessment_funk(lang='uz')
     )
     await ConditionUz.type.set()
 

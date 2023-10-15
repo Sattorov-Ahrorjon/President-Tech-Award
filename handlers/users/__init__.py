@@ -7,3 +7,4 @@ from . import help
 from . import echo
 from . import registration_ru
 from . import registration_uz
+from . import user_complaints

@@ -26,7 +26,7 @@ def situation_list_func_ru():
 async def know_the_situation(message: types.Message):
     await message.answer(
         text="Предоставить информацию о состоянии пациента!",
-        reply_markup=await def_buttons.emergency_help_funk()
+        reply_markup=await def_buttons.emergency_help_funk(lang='ru')
     )
     await EmergencyRu.situation.set()
 
@@ -49,7 +49,7 @@ async def know_the_situation(message: types.Message):
     await message.answer(
         text="Пожалуйста!"
              "\nПредоставить информацию о состоянии пациента!",
-        reply_markup=await def_buttons.emergency_help_funk()
+        reply_markup=await def_buttons.emergency_help_funk(lang='ru')
     )
     await EmergencyRu.situation.set()
 
